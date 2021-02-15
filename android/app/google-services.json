@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1017867561044",
+    "project_id": "examprep-app",
+    "storage_bucket": "examprep-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017867561044:android:788f05455893d4e28325c1",
+        "android_client_info": {
+          "package_name": "com.exam.voting_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1017867561044-ou4fls3knjeo9nmc4v5nqf2n42s9b92e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAU_4XeU_c6xT4N7Zc-zGHs8BYTMjCNzM8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1017867561044-ou4fls3knjeo9nmc4v5nqf2n42s9b92e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
