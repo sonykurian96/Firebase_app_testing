@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:voting_app/authenticate/register.dart';
 import 'package:voting_app/authenticate/signin.dart';
 
 class Authenticate extends StatefulWidget {
@@ -7,10 +8,22 @@ class Authenticate extends StatefulWidget {
 }
 
 class _AuthenticateState extends State<Authenticate> {
+
+  bool showSignIn = true;
+
+  void togglePage(){
+    setState(() {
+      showSignIn = !showSignIn;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SignIn(),
-    );
+
+    if(showSignIn)
+     return SignIn(togglePage : togglePage);
+    else{
+      return Register(togglePage : togglePage);
+    }
   }
 }
