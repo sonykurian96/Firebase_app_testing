@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:voting_app/constants.dart';
 import 'package:voting_app/services/auth.dart';
 
 class SignIn extends StatefulWidget {
@@ -12,9 +13,11 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   String email = '';
   String password = '';
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +40,12 @@ class _SignInState extends State<SignIn> {
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20,horizontal: 50),
         child: Form(
+          key: _formKey,
           child: Column(
             children: [
               TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: "Email"),
+                validator: (value) => value.isEmpty ? "Enter email":null,
                 onChanged: (value){
                   setState(() {
                     email = value;
@@ -48,6 +54,8 @@ class _SignInState extends State<SignIn> {
               ),
               SizedBox(height: 10,),
               TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: "Password"),
+                validator: (value) => value.length < 7 ? "Enter password +7 char":null,
                 obscureText: true,
                 onChanged: (value){
                   setState(() {
@@ -60,10 +68,19 @@ class _SignInState extends State<SignIn> {
                 color: Colors.pink[400],
                 child: Text("Sign In"),
                   onPressed: () async{
-                    print(email);
-                    print(password);
+                    if(_formKey.currentState.validate()){
+                      print("valid");
+                      dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                      if(result == null){
+                        setState(() {
+                          error = "Could not signIn";
+                        });
+                      }
+                    }
                   }
-              )
+              ),
+              SizedBox(height: 12,),
+              Text(error, style: TextStyle(fontSize: 20,color: Colors.red),)
             ],
           ),
         )
@@ -72,15 +89,3 @@ class _SignInState extends State<SignIn> {
   }
 }
 
-// RaisedButton(
-// child: Text("Sign in anonymously"),
-// onPressed: () async{
-// print("ok something missing");
-// dynamic _result = await _auth.signInAnon();
-// if(_result==null)
-// print("some problem");
-// else
-// print("signed in");
-// print(_result.uid);
-// },
-// ),

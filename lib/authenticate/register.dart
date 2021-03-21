@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:voting_app/services/auth.dart';
 
+import '../constants.dart';
+
 class Register extends StatefulWidget {
 
   final Function togglePage;
@@ -17,6 +19,7 @@ class _RegisterState extends State<Register> {
 
   String email = '';
   String password = '';
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +46,7 @@ class _RegisterState extends State<Register> {
             child: Column(
               children: [
                 TextFormField(
+                  decoration: textInputDecoration.copyWith(hintText: "Email"),
                   validator: (value) => value.isEmpty ? "Enter email":null,
                   onChanged: (value){
                     setState(() {
@@ -52,6 +56,7 @@ class _RegisterState extends State<Register> {
                 ),
                 SizedBox(height: 10,),
                 TextFormField(
+                  decoration: textInputDecoration.copyWith(hintText: "Password"),
                   validator: (value) => value.length < 7 ? "Enter password +7 char":null,
                   obscureText: true,
                   onChanged: (value){
@@ -66,11 +71,17 @@ class _RegisterState extends State<Register> {
                     child: Text("Register"),
                     onPressed: () async{
                       if(_formKey.currentState.validate()){
-                      print(email);
-                      print(password);
+                        dynamic result = await _auth.registerWithEmailAndPassword(email, password);
+                        if(result == null){
+                          setState(() {
+                            error = "provide a valid email address";
+                          });
+                        }
                       }
                     }
-                )
+                ),
+                SizedBox(height: 12,),
+                Text(error, style: TextStyle(fontSize: 20,color: Colors.red),)
               ],
             ),
           )
