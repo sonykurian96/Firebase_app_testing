@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:voting_app/constants.dart';
+import 'package:voting_app/loading.dart';
 import 'package:voting_app/services/auth.dart';
 
 class SignIn extends StatefulWidget {
@@ -18,10 +19,11 @@ class _SignInState extends State<SignIn> {
   String email = '';
   String password = '';
   String error = '';
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
       backgroundColor: Colors.orange[100],
       appBar: AppBar(
         title: Text("Welcome to Voting App"),
@@ -69,10 +71,14 @@ class _SignInState extends State<SignIn> {
                 child: Text("Sign In"),
                   onPressed: () async{
                     if(_formKey.currentState.validate()){
+                      setState(() {
+                        loading = true;
+                      });
                       print("valid");
                       dynamic result = await _auth.signInWithEmailAndPassword(email, password);
                       if(result == null){
                         setState(() {
+                          loading = false;
                           error = "Could not signIn";
                         });
                       }

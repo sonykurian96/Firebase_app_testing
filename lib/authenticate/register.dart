@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:voting_app/loading.dart';
 import 'package:voting_app/services/auth.dart';
 
 import '../constants.dart';
@@ -20,10 +21,11 @@ class _RegisterState extends State<Register> {
   String email = '';
   String password = '';
   String error = '';
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return _loading ? Loading() : Scaffold(
       backgroundColor: Colors.orange[100],
       appBar: AppBar(
         title: Text("Welcome to Voting App"),
@@ -71,9 +73,13 @@ class _RegisterState extends State<Register> {
                     child: Text("Register"),
                     onPressed: () async{
                       if(_formKey.currentState.validate()){
+                        setState(() {
+                          _loading = true;
+                        });
                         dynamic result = await _auth.registerWithEmailAndPassword(email, password);
                         if(result == null){
                           setState(() {
+                            _loading = false;
                             error = "provide a valid email address";
                           });
                         }
